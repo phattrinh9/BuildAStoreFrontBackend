@@ -61,8 +61,8 @@ POSTGRES_PORT=${DB_PORT_DEV}
 - migrate down:  ```db-migrate down -e dev ```
 
 - To start API application: 
-+ run:  ```db-migrate up -e dev ```
-        ```npm run start```
-        ```db-migrate down -e dev ```
+    - run:  ```db-migrate up -e dev ```
+            ```npm run start```
+            ```db-migrate down -e dev ```
 - To test API application: 
-+ run:  ```npm run test```
+    - run:  ```npm run test```
