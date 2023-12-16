@@ -31,7 +31,7 @@ The main API is a [REST](http://localhost:3000/api)
 + Signup [POST] (/user/signup) req.body(User)
     + Param: req.body(User)
 
-## API Sample req body
+## API Sample req body (Example)
 #### User: 
 + {
     "username":"user",
@@ -45,6 +45,14 @@ The main API is a [REST](http://localhost:3000/api)
     "order_date": "2022-10-31T17:00:00.000Z"
 }
 
+## Setup environment (.env)
+TOKEN_SECRET=${YOUR_TOKEN}
+
+POSTGRES_HOST=${DB_HOST_DEV}
+POSTGRES_DB=${DB_NAME_DB_DEV}
+POSTGRES_USER=${DB_USER_DEV}
+POSTGRES_PASSWORD=${DB_PASSWORD_DEV}
+POSTGRES_PORT=${DB_PORT_DEV}
 
 ## How to run API resources
 - start: ```npm run start```
