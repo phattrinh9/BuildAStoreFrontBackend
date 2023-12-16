@@ -1,4 +1,5 @@
 # API Docs
+## API intro
 
 Order API.
 User API.
@@ -7,7 +8,7 @@ The main API is a [REST](http://localhost:3000/api)
 
 ## API showcase
 
-- Order API.
+#### Order API.
 + Show all order [GET] (/order/getAll)
     + Token: require bearer token
 + Show order by id [GET] (/order/:id) 
@@ -21,7 +22,7 @@ The main API is a [REST](http://localhost:3000/api)
 + DELETE order [DELETE] (/order/:id)
     + Token: require bearer token
 
-- User API
+#### User API
 + Show all user [GET] (/user/users)
     + Token: require bearer token
 + Login [POST] (/user/login) req.body(User)
@@ -30,13 +31,13 @@ The main API is a [REST](http://localhost:3000/api)
 + Signup [POST] (/user/signup) req.body(User)
     + Param: req.body(User)
 
-### API Sample req body
-- User: 
+## API Sample req body
+#### User: 
 + {
     "username":"user",
     "password":"user2412"
 }
-- Order:
+#### Order:
 + {
     "customer_id": 2,
     "product_id": 3,
@@ -45,7 +46,7 @@ The main API is a [REST](http://localhost:3000/api)
 }
 
 
-#### How to run API resources
+## How to run API resources
 - start: ```npm run start```
 - test: ```npm run test```
 - migrate up: ```db-migrate down -e dev ```
