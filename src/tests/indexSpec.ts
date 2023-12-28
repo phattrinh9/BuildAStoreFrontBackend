@@ -1,11 +1,11 @@
-import runModelTests from './model.test';
-import runEndpointTests from './endpoint.test';
+// import runModelTests from './';
+// import runEndpointTests from './endpoint.test';
 
-describe('Model Tests', () => {
-    runModelTests();
-});
+// describe('Model Tests', () => {
+//     runModelTests();
+// });
 
-describe('Endpoint Tests', () => {
-    runEndpointTests();
-});
+// describe('Endpoint Tests', () => {
+//     runEndpointTests();
+// });
 

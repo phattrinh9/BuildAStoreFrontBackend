@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express'
 import bodyParser from 'body-parser'
 import userRouter from "./routes/usersRoutes";
 import orderRouter from "./routes/ordersRoutes";
+import productRouter from './routes/productsRoutes';
 
 
 const app: express.Application = express()
@@ -12,6 +13,8 @@ app.use(bodyParser.json())
 app.use('/api/user', userRouter)
 
 app.use('/api/order', orderRouter)
+
+app.use('/api/product', productRouter)
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)

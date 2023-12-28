@@ -4,39 +4,72 @@ The company stakeholders want to create an online storefront to showcase their g
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
 ## API Endpoints
+### Check for endpoint in document link: https://documenter.getpostman.com/view/21102224/2s9YkuaJX2
 #### Products
-- Index 
-- Show
+- Index [token required]
+- Show [token required]
 - Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
 
 #### Users
 - Index [token required]
 - Show [token required]
-- Create N[token required]
+- [ADD] Create 
+- [ADD] Get Token 
 
 #### Orders
 - Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
-
+- [ADD] Create [token required]
 ## Data Shapes
 #### Product
--  id
+- id
 - name
 - price
-- [OPTIONAL] category
+
+TABLE products (
+id SERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+price REAL NOT NULL
+);
 
 #### User
 - id
-- firstName
-- lastName
-- password
+- first_name
+- last_name
+- user_name
+- hasspassword 
 
-#### Orders
+TABLE users (
+id SERIAL PRIMARY KEY,
+first_name VARCHAR(255) NOT NULL,
+last_name VARCHAR(255) NOT NULL,
+username VARCHAR(255) NOT NULL,
+hasspassword VARCHAR NOT NULL
+);
+
+#### Order
 - id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- user_id 
+- status_of_order 
+
+TABLE Order (
+id SERIAL PRIMARY KEY,
+user_id INTEGER REFERENCES users(id),
+status VARCHAR(255)
+);
+
+#### OrderDetail
+- id 
+- order_id 
+- product_id 
+- quantity 
+
+TABLE OrderDetail (
+id SERIAL PRIMARY KEY,
+order_id INTEGER REFERENCES Order(id),
+product_id INTEGER REFERENCES Product(id),
+quantity INTEGER NOT NULL,
+);
+
+
+
 

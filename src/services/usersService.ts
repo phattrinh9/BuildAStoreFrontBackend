@@ -3,38 +3,50 @@ import { UserModel } from '../models/usersModel';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
+import { User } from '../entities/User';
+import { getTokenByUser } from './auth';
 
 dotenv.config();
 const {
-    TOKEN_SECRET
-} = process.env 
+  TOKEN_SECRET
+} = process.env
 
 
 export const UserService = {
   async signUpUser(req: Request, res: Response): Promise<void> {
-    const { username, password } = req.body;
+    const { user_name, first_name, last_name, password } = req.body;
 
     try {
-      const saltRounds = 10;
-      const salt = await bcrypt.genSalt(saltRounds);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      const newUser = await UserModel.createUser(username, hashedPassword);
+      const user: User = {
+        id: -1,
+        user_name: user_name || null,
+        first_name: first_name || null,
+        last_name: last_name || null,
+        hashpassword: password || null,
+      }
+      const newUser = await UserModel.create(user);
 
-
-      const accessToken = jwt.sign({ username: username }, process.env.TOKEN_SECRET || '' );
-      res.json({ accessToken });
-      res.status(201);
+      if (newUser) {
+        res.json(getTokenByUser(newUser));
+        res.status(201);
+      }
     } catch (error) {
-      console.error('Error signing up user:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-      
+      res.status(400).json(error);
+
     }
   },
-  async loginUser(req: Request, res: Response): Promise<void> {
+  async loginUser(req: Request, res: Response) {
     const { username, password } = req.body;
 
     try {
-      const result = await UserModel.getUserWithUserName(username);
+      if (!username || !password) {
+        res.status(400);
+        res.send(
+          'Missing parameters'
+        );
+        return false;
+      }
+      const result = await UserModel.authentication(username, password);
 
       const user = result;
       if (!user) {
@@ -42,18 +54,10 @@ export const UserService = {
         return;
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.hashedpassword);
-      if (!passwordMatch) {
-        res.status(401).json({ message: 'Invalid username or password' });
-        return;
-      }
-
-      const accessToken = jwt.sign({ username: username }, process.env.TOKEN_SECRET || '');
-      res.json({ accessToken });
-      res.status(201);
+      res.json(getTokenByUser(user));
     } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error login:', error);
+      res.status(400).json(error);
     }
   },
 
@@ -69,6 +73,18 @@ export const UserService = {
     }
   },
 
+  async getUserById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    if (id) {
+      try {
+        const users = await UserModel.getUserWithUserId(parseInt(id));
+        res.json(users);
+      } catch (error) {
+        console.error('Error getting users:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    }
+  },
 
   // Other CRUD operation methods for user service (update, delete, getById, etc.)
 };

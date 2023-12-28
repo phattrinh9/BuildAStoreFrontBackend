@@ -1,48 +1,57 @@
 
 import client from "../database";
-import { Order } from "../entities/Order";
+import { Order, OrderDetail } from "../entities/Order";
 
 export const OrderModel = {
   async create(order: Order): Promise<Order> {
-    const result = await client.query<Order>(
-      'INSERT INTO orders (customer_id, product_id, quantity, order_date) VALUES ($1, $2, $3, $4) RETURNING *',
-      [order.customer_id, order.product_id, order.quantity, order.order_date]
+    const resultOrder = await client.query<Order>(
+      'INSERT INTO "Order" (user_id, status_of_order) VALUES ($1, $2) RETURNING *',
+      [order.user_id, order.status_of_order]
     );
-    return result.rows[0];
+
+    let orderDetails: OrderDetail[] = [];
+    if (order.orderDetails && order.orderDetails.length > 0) {
+      for (const orderDetail of order.orderDetails) {
+        const resultOrderDetails = await client.query<OrderDetail>(
+          'INSERT INTO "OrderDetail" (order_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *',
+          [resultOrder.rows[0].id, orderDetail.product_id, orderDetail.quantity]
+        )
+        orderDetails.push(...resultOrderDetails.rows);
+      }
+    }
+    return {
+      ...resultOrder.rows[0],
+      orderDetails: orderDetails,
+    };
   },
 
-  async update(order: Order): Promise<Order> {
-    const result = await client.query<Order>(
-      'UPDATE orders SET ' +
-      'customer_id = $1, ' +
-      'product_id = $2, ' +
-      'quantity = $3 ' +
-      //  "order_date = $4 " +
-      'WHERE order_id = $4  RETURNING *',
-      [order.customer_id, order.product_id, order.quantity, order.order_id]
-    );
-    return result.rows[0];
-  },
 
-  async delete(order_id: number): Promise<Order> {
-    const result = await client.query<Order>(
-      'DELETE FROM orders WHERE order_id = $1 RETURNING *',
-      [order_id]
+  async getOrderByUserId(user_id: number): Promise<Order[]> {
+    let response: Order[] = [];
+    const resultOrders = await client.query<Order>(
+      'SELECT * FROM "Order" WHERE user_id = $1',
+      [user_id]
     );
-    return result.rows[0];
-  },
 
-  async getAllOrders(): Promise<Order[]> {
-    const result = await client.query<Order>('SELECT * FROM orders');
-    return result.rows;
-  },
+    // const sql = 'SELECT * FROM Order WHERE user_id = $1';
+    // const conn = await client.connect();
+    // const result = await conn.query(sql, [user_id]);
+    // conn.release();
+    // return result.rows;
+    
+    // const orderDetails : OrderDetail[] = [];
+    for (const order of resultOrders.rows) {
+      const resultOrderDetails = await client.query<OrderDetail>(
+        'SELECT * FROM "OrderDetail" WHERE order_id = $1',
+        [order.id]
+      )
+      response.push({
+        ...order,
+        orderDetails: resultOrderDetails.rows
+      });
 
-  async getOrderById(order_id: number): Promise<Order> {
-    const result = await client.query<Order>(
-      'SELECT * FROM orders WHERE order_id = $1',
-      [order_id]
-    );
-    return result.rows[0];
+    }
+    return response;
   },
 
   // Other CRUD operations for the Order model (update, delete, getById, etc.)

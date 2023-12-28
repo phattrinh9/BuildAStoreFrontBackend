@@ -2,14 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../models/usersModel';
 import bcrypt from 'bcrypt';
 import { User } from "../entities/User";
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv'
 
 dotenv.config();
-const {
-    TOKEN_SECRET
-} = process.env
-const verifyAuthToken = (req: Request, res: Response, NextFunction: () => void) => {
+const SECRET = process.env.TOKEN_SECRET as Secret;
+export const verifyAuthToken = (req: Request, res: Response, NextFunction: () => void) => {
     try {
         const authorizationHeader = req.headers.authorization;
         if (authorizationHeader) {
@@ -35,6 +33,8 @@ const verifyAuthToken = (req: Request, res: Response, NextFunction: () => void) 
     } catch (error) {
         res.status(401)
     }
-}
+};
 
-export default verifyAuthToken;
+export const getTokenByUser = (user: User) => {
+    return jwt.sign({ user }, SECRET);
+};

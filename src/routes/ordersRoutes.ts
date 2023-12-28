@@ -1,21 +1,21 @@
 import express, { Request, Response } from 'express';
 import { OrderService } from '../services/ordersService';
-import verifyAuthToken from "../services/auth";
+import { verifyAuthToken } from "../services/auth";
 
 const orderRouter = express.Router();
 
 // GET /orders - Fetch all orders
-orderRouter.get('/getAll', verifyAuthToken, OrderService.getAll);
+// orderRouter.get('/getAll', verifyAuthToken, OrderService.getAll);
 
 // GET /orderByid - get order by id
-orderRouter.get('/:id', verifyAuthToken, OrderService.getById);
+orderRouter.get('/current/:user_id', verifyAuthToken, OrderService.getByUserId);
 
 // POST /create - create order
 orderRouter.post('/',verifyAuthToken, OrderService.create);
 
-// PUT /update - update order
-orderRouter.put('/:id',verifyAuthToken, OrderService.update);
+// // PUT /update - update order
+// orderRouter.put('/:id',verifyAuthToken, OrderService.update);
 
-// DELETE /delete - delete order
-orderRouter.delete('/:id',verifyAuthToken, OrderService.delete);
+// // DELETE /delete - delete order
+// orderRouter.delete('/:id',verifyAuthToken, OrderService.delete);
 export default orderRouter;
