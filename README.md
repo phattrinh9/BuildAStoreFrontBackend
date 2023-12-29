@@ -49,8 +49,8 @@ Step 3 - Open PostgreSQL terminal, and connect to database as information below:
 `CREATE DATABASE ${DB_NAME_TEST};`
 
 - Grant all database privileges to user in both databases
-`GRANT ALL PRIVILEGES ON DATABASE DB_NAME TO DB_USER;`
-`GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME_TEST} TO DB_USER;`
+`GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME TO} ${DB_USER};`
+`GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME_TEST} TO ${DB_USER};`
 
 ## Setup environment (.env)
 TOKEN_SECRET=${YOUR_TOKEN}
@@ -61,8 +61,7 @@ POSTGRES_USER=${DB_USER}
 POSTGRES_PASSWORD=${DB_PASSWORD}
 POSTGRES_PORT=${DB_PORT}
 POSTGRES_DB_TEST=${DB_NAME_TEST}
-POSTGRES_PORT_TEST=${POSTGRES_PORT_TEST}
-ENV=dev
+POSTGRES_PORT_TEST=${DB_PORT_TEST}
 BCRYPT_PW=${BCRYPT_PW}
 SALT_ROUNDS=${SALT_ROUNDS}
 
@@ -78,7 +77,9 @@ Step 1:  Install all requisite dependencies: `npm i`
 
 Step 2: Run `db-migrate up` to migrate data
 
-Step 3: Start API : `npm run start`
+Step 3: Run `npm run build` to build project
+
+Step 4: Start API : `npm run start`
 
 Optional: Run `db-migrate down` to drop table
 

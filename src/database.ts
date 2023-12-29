@@ -24,7 +24,7 @@ if (ENV === 'test') {
   password = POSTGRES_PASSWORD;
   port = POSTGRES_PORT_TEST;
 } 
-if (ENV === 'dev') {
+else {
   host = POSTGRES_HOST;
   db = POSTGRES_DB;
   user = POSTGRES_USER;
