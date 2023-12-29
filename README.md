@@ -29,7 +29,7 @@ The main API is a [REST](http://localhost:3000/api)
 
 ## API Endpoint
 
-Link Document for endpoint API: https://documenter.getpostman.com/view/21102224/2s9YkuaJX2
+Link route for endpoint API: https://documenter.getpostman.com/view/21102224/2s9YkuaJX2
 
 Check out all endpoints in the [REQUIREMENT.md](REQUIREMENTS.md) file. 
 
