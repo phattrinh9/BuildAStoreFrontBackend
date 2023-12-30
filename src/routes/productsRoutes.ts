@@ -5,10 +5,10 @@ import { verifyAuthToken } from "../services/auth";
 const productRouter = express.Router();
 
 // GET /orders - Fetch all orders
-productRouter.get('/getAll', verifyAuthToken, ProductService.getAll);
+productRouter.get('/getAll', ProductService.getAll);
 
 // GET /orderByid - get order by id
-productRouter.get('/:id', verifyAuthToken, ProductService.getById);
+productRouter.get('/:id', ProductService.getById);
 
 // POST /create - create order
 productRouter.post('/',verifyAuthToken, ProductService.create);

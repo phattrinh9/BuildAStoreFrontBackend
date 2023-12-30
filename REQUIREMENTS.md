@@ -6,8 +6,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## API Endpoints
 ### Check for route and payload example in document link: https://documenter.getpostman.com/view/21102224/2s9YkuaJX2
 #### Products
-- Index [token required] `'api/product/:id' [GET] (token)`
-- Show [token required] `'api/product/getAll' [GET] (token)`
+- Index [token required] `'api/product/:id' [GET] `
+- Show [token required] `'api/product/getAll' [GET] `
 - Create [token required] `'api/product/' [POST] (token)`
 
 #### Users
